@@ -2,594 +2,1095 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>孙楚航 - Sun Chuhang</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/shenqideshijuan/shenqideshijuan.github.io/main/images/icon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Parasol Sun</title>
+    <!-- 免费可商用高级字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- mammoth.js 解析 .docx -->
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.2/mammoth.browser.min.js"></script>
     <style>
-        /* 基础样式 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
-        
+
+        /* 主题变量 (完全保留原版) */
+        :root {
+            --bg-color: #faf7f2;
+            --surface-color: #fffef7;
+            --text-color: #2c2b28;
+            --text-secondary: #6b6a66;
+            --border-color: #e6dfd3;
+            --accent: #b97f4b;
+            --accent-soft: #d9b48b;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.05);
+            --header-bg: rgba(250, 247, 242, 0.92);
+        }
+
+        body[data-theme="sepia"] {
+            --bg-color: #f9efdf;
+            --surface-color: #fcf7ed;
+            --text-color: #4a3b2a;
+            --text-secondary: #7a6852;
+            --border-color: #e0cfb5;
+            --accent: #b45f2b;
+            --header-bg: rgba(249, 239, 223, 0.94);
+        }
+
+        body[data-theme="dark"] {
+            --bg-color: #1e1e24;
+            --surface-color: #2c2c33;
+            --text-color: #e8e6e1;
+            --text-secondary: #aaa8a0;
+            --border-color: #3e3e44;
+            --accent: #d9965c;
+            --accent-soft: #a5693a;
+            --header-bg: rgba(30, 30, 36, 0.94);
+        }
+
         body {
-            font-family: "Microsoft YaHei Light", "微软雅黑 Light", "SimSun", "华文宋体", sans-serif;
-            color: #e0d6c9;
-            background-color: #000;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Noto Serif SC', system-ui, sans-serif;
             line-height: 1.6;
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
-        
-        /* 微软雅黑字体应用区域 */
-        .msyh-font {
-            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
-        }
-        
-        /* 语言切换 */
-        .language-switcher {
+
+        .reader-header {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
             z-index: 1000;
-        }
-        
-        .language-btn {
-            background: rgba(90, 70, 50, 0.8);
-            color: #e0d6c9;
-            border: 1px solid #7a6150;
-            padding: 5px 15px;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 3px;
-            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
-            width: 100px;
-            text-align: center;
-        }
-        
-        .language-options {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: rgba(60, 45, 30, 0.95);
-            border: 1px solid #7a6150;
-            border-radius: 3px;
-            margin-top: 5px;
-            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
-            width: 100px; /* 与按钮同宽 */
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        .language-options a {
-            display: block;
-            padding: 8px 15px;
-            color: #e0d6c9;
-            text-decoration: none;
-            white-space: nowrap; /* 防止文字换行 */
-            text-align: center;
-        }
-        
-        .language-options a:hover {
-            background: rgba(120, 90, 60, 0.8);
-        }
-        
-        /* 分区样式 */
-        .screen {
-            min-height: 100vh;
-            padding: 20px;
+            height: 56px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-            opacity: 1;
-            transition: opacity 0.8s ease;
         }
-        /* 添加光源效果 */
-       body::before {
-       content: '';
-       position: fixed;
-       top: 0;
-       left: 0;
-       width: 100%;
-       height: 100%;
-       background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-       pointer-events: none;
-       z-index: 1;
-}
-        /* 背景样式 */
-        .bg-stars {
-            background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3') no-repeat center/cover;
-        }
-        
-        .bg-bookshelf {
-            background: linear-gradient(rgba(60, 45, 30, 0.5), rgba(60, 45, 30, 0.6)), url('https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3') no-repeat center/cover;
-        }
-        
-        /* 文本内容样式 */
-        .content {
-            max-width: 800px;
-            margin: 0 auto;
-            z-index: 2;
-        }
-       /* 各屏幕背景图片 */
-        #screen1 {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://raw.githubusercontent.com/shenqideshijuan/shenqideshijuan.github.io/main/images/1.png') no-repeat center/cover;
-        }
-        
-        #screen2 {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://raw.githubusercontent.com/shenqideshijuan/shenqideshijuan.github.io/main/images/2.png') no-repeat center/cover;
-        }
-        
-        #screen3 {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://raw.githubusercontent.com/shenqideshijuan/shenqideshijuan.github.io/main/images/3.png') no-repeat center/cover;
-        }
-        
-        #screen4 {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://raw.githubusercontent.com/shenqideshijuan/shenqideshijuan.github.io/main/images/5.png') no-repeat center/cover;
-        }
-        
-        #screen5 {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://raw.githubusercontent.com/shenqideshijuan/shenqideshijuan.github.io/images/7.png') no-repeat center/cover;
-        } 
-        .main-title {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1.2s ease;
-            font-family: "Microsoft YaHei Light", "微软雅黑 Light", sans-serif;
-            line-height: 1.2; /* 减少行距 */
-        }
-        
-        .main-text {
-            font-size: 1.8rem;
-            margin-bottom: 20px; /* 减少间距 */
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1.2s ease 0.4s;
-            font-family: "Microsoft YaHei Light", "微软雅黑 Light", sans-serif;
-            line-height: 1.2; /* 减少行距 */
-        }
-        
-        .screen-image {
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 20px auto; /* 减少间距 */
-            opacity: 0;
-            transform: translateY(100px);
-            transition: all 1.5s ease 0.8s;
-            box-shadow: 0 0 30px rgba(200, 160, 120, 0.3);
-            border: 3px solid #7a6150;
-        }
-        
-        .image-note {
-            font-size: 0.9rem;
-            color: #c9b18f;
-            margin-top: 10px;
-            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
-        }
-        
-        .visible {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-        
-        /* 书架区域 */
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #e0c9a6;
-            font-family: "Microsoft YaHei Light", "微软雅黑 Light", sans-serif;
-        }
-        
-        .section-subtitle {
-            font-size: 1rem;
-            margin-bottom: 50px;
-            text-align: center;
-            color: #c9b18f;
-        }
-        
-        .books-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
+
+        .header-container {
             max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
         }
-        
-        .book {
-            width: 180px;
-            height: 260px;
-            perspective: 1000px;
+
+        .logo-area {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            letter-spacing: -0.3px;
+        }
+        .logo {
+            font-size: 1.35rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .right-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 100%;
+        }
+
+        .btn, .dropdown-btn, .file-label.btn, .menu-link {
+            background: transparent;
+            border: none;
+            padding: 0 18px;
+            height: 56px;
+            line-height: 56px;
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 0;
+            text-decoration: none;
+        }
+        .btn:hover, .dropdown-btn:hover, .menu-link:hover,
+        .dropdown-btn.active {
+            background-color: #000000;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+        .btn:active, .dropdown-btn:active {
+            transform: translateY(1px);
+        }
+        .file-label {
             cursor: pointer;
         }
-        
-        .book-inner {
+        input[type="file"] {
+            display: none;
+        }
+
+        .font-size-indicator {
+            font-size: 0.8rem;
+            font-weight: 500;
+            min-width: 44px;
+            text-align: center;
+            color: var(--accent);
+            background: transparent;
+            padding: 0 6px;
+            height: 56px;
+            line-height: 56px;
+        }
+
+        .dropdown {
             position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
         }
-        
-        .book:hover .book-inner {
-            transform: rotateY(15deg) translateY(-10px);
+        .dropdown-btn {
+            height: 56px;
+            line-height: 56px;
+            padding: 0 18px;
+            min-width: 100px;
+            justify-content: center; 
         }
-        
-        .book-front {
+        .dropdown-menu {
             position: absolute;
+            top: 56px;
+            left: 0;
             width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 5px 8px 8px 5px;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+            background: var(--surface-color);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .dropdown-menu.show {
+            display: flex;
+            min-width: 100px;
+        }
+        .dropdown-item {
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-color);
+            background: transparent;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.1s;
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            border-radius: 0;
+            white-space: normal;   
+            word-break: break-word;
+            text-align: center;
+        }
+        .dropdown-item:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        body[data-theme="dark"] .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .dropdown-item.active {
+            background-color: var(--accent-soft);
+            color: white;
+        }
+
+        .menu-link {
+            padding: 0 16px;
+        }
+
+        .reading-container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .book-info {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .book-title {
+            font-family: 'Lora', 'Noto Serif SC', serif;
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        .book-meta {
             display: flex;
             justify-content: center;
-            align-items: center;
-            background: linear-gradient(45deg, #7a6150, #9c7c5a);
-            color: #f0e6d2;
-            font-size: 1.2rem;
-            text-align: center;
-            padding: 15px;
-            font-family: "Microsoft YaHei Light", "微软雅黑", sans-serif;
+            gap: 28px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-family: 'Inter', monospace;
         }
-        
-        /* 页脚样式 */
-        footer {
-            background: #1a1510;
-            padding: 40px 20px;
-            text-align: center;
+        .novel-content {
+            background: var(--surface-color);
+            border-radius: 0;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            font-family: 'Lora', 'Noto Serif SC', Georgia, serif;
+            font-size: 1.08rem;
+            line-height: 1.75;
+            color: var(--text-color);
         }
-        
-        .contact-table {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-            border-collapse: collapse;
-            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+        .novel-content p {
+            margin-bottom: 1.65rem;
+            text-indent: 2em;
         }
-        
-        .contact-table td {
-            padding: 12px;
-            border-bottom: 1px solid #4a3c2d;
-        }
-        
-        .contact-table a {
-            color: #c9b18f;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .contact-table a:hover {
-            color: #e0c9a6;
-            text-decoration: underline;
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 2rem;
-            }
-            
-            .main-text {
-                font-size: 1.4rem;
-            }
-            
-            .screen-image {
-                width: 200px;
-                height: 200px;
-            }
-            
-            .books-container {
-                gap: 20px;
-            }
-            
-            .book {
-                width: 140px;
-                height: 200px;
-            }
-            
-            .language-btn, .language-options {
-                width: 80px;
-            }
-        }
-        
-        /* 滚动提示 */
-        .scroll-hint {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #c9b18f;
+        .novel-content h2 {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
             font-size: 1.5rem;
-            animation: bounce 2s infinite;
-            z-index: 10;
+            border-left: 3px solid var(--accent);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
         }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0) translateX(-50%);
-            }
-            40% {
-                transform: translateY(-20px) translateX(-50%);
-            }
-            60% {
-                transform: translateY(-10px) translateX(-50%);
-            }
+        .placeholder-message {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            color: var(--text-secondary);
+            background: var(--surface-color);
+            border-radius: 0;
+            font-family: 'Inter', sans-serif;
         }
+        .drag-over {
+            outline: 2px solid var(--accent);
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        .footer-bar {
+            text-align: center;
+            font-size: 0.7rem;
+            font-family: 'Inter', monospace;
+            color: var(--text-secondary);
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+body[data-theme="dark"] .dropdown-btn:hover,
+body[data-theme="dark"] .dropdown-btn.active {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    transform: translateY(-1px);
+    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+/* 夜间模式：上传、顶部、返回按钮 hover 翻转 */
+body[data-theme="dark"] .btn:hover,
+body[data-theme="dark"] .menu-link:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    transform: translateY(-1px);
+    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.hero-text h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--text-color);
+}
+.lead {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.btn {
+    padding: 0.75rem 2rem;
+    border-radius: 48px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+    font-family: inherit;
+    cursor: pointer;
+}
+.btn-primary {
+    background: #3b82f6;
+    color: white;
+    border: none;
+}
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+.btn-outline {
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    background: transparent;
+}
+.btn-outline:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    transform: translateY(-2px);
+}
+.img-placeholder {
+    background: linear-gradient(145deg, #d9e6f7, #cbdff2);
+    border-radius: 40px;
+    padding: 2rem;
+    text-align: center;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 20px -10px rgba(0,0,0,0.1);
+}
+/* 动画类 (复用原 .animate-item 逻辑) */
+.animate-item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+.animate-right {
+    transform: translateX(40px);
+}
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
+/* 可见状态 */
+.hero-section.visible .animate-item {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+}
+@media (max-width: 768px) {
+    .hero-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    .btn-group {
+        justify-content: center;
+    }
+}
+
+.second-page .hero-text h1 {
+    font-size: 2.6rem;
+}
+.second-page .hero-text .lead {
+    font-size: 1.5rem;
+}
+
+.third-page .hero-text h1 {
+    font-size: 2.6rem;   
+    line-height: 1.4;
+    font-weight: 600;
+}
+.third-page .lead {
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-top: 0.5rem;
+}
+.third-page .hero-grid {
+    align-items: center;
+}
+.third-page .hero-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 3rem !important;
+}
+@media (max-width: 768px) {
+    .third-page .hero-grid {
+        grid-template-columns: 1fr 1fr !important;  /* 手机上也强制两列 */
+        gap: 1.5rem !important;
+    }
+    .third-page .film-strip {
+        max-width: 100%;
+    }
+}
+.film-strip {
+    width: 380px;
+    max-width: 400px;
+    height: 700px;
+    overflow: hidden;
+    border-radius: 32px;
+    box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+    background: #000;
+    margin: 0;
+    margin-right: auto;
+}
+.film-images {
+    display: flex;
+    flex-direction: column;
+    animation: verticalScroll 20s linear infinite;
+}
+.film-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+}
+/* 确保图片高度一致，避免跳动 */
+.film-img {
+    aspect-ratio: 4 / 3;
+}
+/* 滚动动画：从顶部移动到底部，利用两组图片实现无缝 */
+@keyframes verticalScroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-50%);
+    }
+}
+/* 响应式调整高度 */
+@media (max-width: 768px) {
+    .film-strip {
+        height: 340px;
+        max-width: 400px;
+    }
+}
+@media (max-width: 768px) {
+    .third-page .hero-text h1 {
+        font-size: 1.8rem;
+    }
+    .third-page .lead {
+        font-size: 1.2rem;
+    }
+}
+
+.fourth-page .hero-text h1 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+@media (max-width: 768px) {
+    .fourth-page .hero-text h1 {
+        font-size: 2rem;
+    }
+    .fourth-page .lead {
+        font-size: 1rem;
+    }
+}
+
+.section-title {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    color: #f2e2ca;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+.section-subtitle {
+    font-size: 1rem;
+    margin-bottom: 55px;
+    color: #d8c2a2;
+    opacity: 0.8;
+}
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 45px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+
+.book {
+    width: 190px;
+    height: 270px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    /* 模拟厚书的多层阴影 */
+    box-shadow: 8px 12px 18px rgba(0, 0, 0, 0.3), 
+                0 0 0 1px rgba(210, 180, 140, 0.4) inset,
+                0 0 0 3px rgba(0, 0, 0, 0.2);
+    border-radius: 4px 8px 8px 4px;
+    background: linear-gradient(135deg, #7f6248, #b48c5c);
+}
+
+/* 模拟书脊（左侧厚边） */
+.book::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 100%;
+    background: linear-gradient(to right, #5a3e2a, #8b694a);
+    border-radius: 2px 0 0 2px;
+    box-shadow: -2px 0 4px rgba(0,0,0,0.3);
+    z-index: 2;
+}
+
+/* 模拟书页（右侧边缘） */
+.book::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    right: -3px;
+    width: 6px;
+    height: calc(100% - 4px);
+    background: #e8dcc8;
+    border-radius: 0 2px 2px 0;
+    box-shadow: 1px 0 3px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* 书籍封面内容区域 */
+.book-front {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #fef3e4;
+    font-family: "Microsoft YaHei Light", "微软雅黑", serif;
+    position: relative;
+    z-index: 3;
+    background: inherit; /* 继承渐变背景 */
+    border-radius: 4px 8px 8px 4px;
+    backdrop-filter: brightness(0.98);
+}
+
+/* 悬停效果：轻微上浮 + 阴影加强（无旋转） */
+.book:hover {
+    transform: translateY(-6px);
+    box-shadow: 12px 18px 24px rgba(0, 0, 0, 0.4), 
+                0 0 0 1px rgba(230, 200, 140, 0.6) inset;
+}
+
+/* 响应式：小屏幕下书籍稍小 */
+@media (max-width: 768px) {
+    .book {
+        width: 140px;
+        height: 200px;
+    }
+    .book::before {
+        width: 8px;
+    }
+    .book-front {
+        font-size: 0.95rem;
+        padding: 12px;
+    }
+}
+
+
+/* 将所有主要内容包裹在一个容器内，并设置为 flex:1 自动撑开 */
+.page-content {
+    flex: 1;
+}
+
+.custom-footer {
+    background-color: #000000;
+    padding: 50px 20px 40px;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+    box-shadow: none;
+    margin-top: 0;
+}
+
+/* 社交链接样式（保持原样） */
+.footer-social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 38px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+.footer-social a {
+    color: #ddcca8;
+    font-size: 1.7rem;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    opacity: 0.85;
+}
+.footer-social a:hover {
+    opacity: 1;
+    transform: translateY(-4px);
+    color: #f7e5c2;
+}
+.footer-quote {
+    font-size: 0.9rem;
+    color: #cfba95;
+    max-width: 600px;
+    margin: 0 auto;
+    font-style: normal;
+    letter-spacing: 1px;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .footer-social {
+        gap: 24px;
+    }
+    .footer-social a {
+        font-size: 1.4rem;
+    }
+    .footer-quote {
+        font-size: 0.8rem;
+        padding: 0 15px;
+    }
+}
+
+.book.custom-cover .book-front {
+    height: 100% !important;
+    min-height: 270px !important; 
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--border-color); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-soft); border-radius: 0; }
     </style>
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+        }
+    }
+</script>
 </head>
-<body>
-    <!-- 语言切换 -->
-    <div class="language-switcher">
-        <button class="language-btn" onclick="toggleLanguageOptions()">
-            <span id="current-lang">语言</span> <i class="fas fa-caret-down"></i>
-        </button>
-        <div class="language-options" id="languageOptions">
-            <a href="?lang=1" data-lang="1">中文(简体)</a>
-            <a href="?lang=2" data-lang="2">中文(繁体)</a>
-            <a href="?lang=3" data-lang="3">English</a>
-        </div>
-    </div>
-
-    <!-- 滚动提示 -->
-    <div class="scroll-hint">
-        <i class="fas fa-chevron-down"></i>
-    </div>
-
-    <!-- 屏幕1 -->
-    <div class="screen bg-stars" id="screen1">
-        <div class="content">
-            <h1 class="main-title" data-lang1="我是孙楚航，" data-lang2="我是孫楚航，" data-lang3="I am Sun Chuhang,">我是孙楚航，</h1>
-            <p class="main-text" data-lang1="一个业余的写手。" data-lang2="一個業餘的寫手。" data-lang3="an amateur writer.">一个业余的写手。</p>
-        </div>
-    </div>
-
-    <!-- 屏幕2 -->
-    <div class="screen bg-stars" id="screen2">
-        <div class="content">
-            <p class="main-text" data-lang1="作为一名普通的学生，" data-lang2="作為一名普通的學生，" data-lang3="As an ordinary student,">作为一名普通的学生，</p>
-            <p class="main-text" data-lang1="我的成绩并不出色。" data-lang2="我的成績並不出色。" data-lang3="my grades are not outstanding.">我的成绩并不出色。</p>
-        </div>
-    </div>
-
-    <!-- 屏幕3 -->
-    <div class="screen bg-stars" id="screen3">
-        <div class="content">
-            <!-- 图片位置1 - 替换下面的URL为您自己的图片 -->
-            <img src="https://raw.githubusercontent.com/shenqideshijuan/shenqideshijuan.github.io/main/images/4.png" class="screen-image" alt="孙楚航">
-            <p class="main-text" data-lang1="但这并没有影响我的追求。" data-lang2="但這並沒有影響我的追求。" data-lang3="But this has not affected my pursuits.">但这并没有影响我的追求。</p>
-        </div>
-    </div>
-
-    <!-- 屏幕4 -->
-    <div class="screen bg-stars" id="screen4">
-        <div class="content">
-            <p class="main-text" data-lang1="我一直以来的愿望是，" data-lang2="我一直以來的願望是，" data-lang3="My long-cherished wish has always been">我一直以来的愿望是，</p>
-            <p class="main-text" data-lang1="徜徉在自由之海，探寻我所追求的事物，" data-lang2="徜徉在自由之海，探尋我所追求的事物，" data-lang3="to wander in the sea of freedom, exploring what I pursue,">徜徉在自由之海，探寻我所追求的事物，</p>
-            <p class="main-text" data-lang1="旅行、设计、美术、编曲、摄影......" data-lang2="旅行、設計、美術、編曲、攝影......" data-lang3="travel, design, art, composing, photography...">旅行、设计、美术、编曲、摄影......</p>
-        </div>
-    </div>
-
-    <!-- 屏幕5 -->
-    <div class="screen bg-stars" id="screen5">
-        <div class="content">
-            <!-- 图片位置2 - 替换下面的URL为您自己的图片 -->
-            <img src="https://raw.githubusercontent.com/shenqideshijuan/shenqideshijuan.github.io/main/images/6.png" class="screen-image" alt="星空">
-            <p class="main-text" data-lang1="如果我做到了呢。" data-lang2="如果我做到了呢。" data-lang3="What if I make it?">如果我做到了呢。</p>
-        </div>
-    </div>
-
-    <!-- 屏幕6: 书架 -->
-    <div class="screen bg-bookshelf" id="screen6">
-        <div class="content">
-            <h2 class="section-title" data-lang1="书架" data-lang2="書架" data-lang3="Bookshelf">书架</h2>
-            <p class="section-subtitle msyh-font" data-lang1="点击获取更多信息..." data-lang2="點擊獲取更多信息..." data-lang3="Click for more information...">点击获取更多信息...</p>
-            
-            <div class="books-container">
-                <div class="book" onclick="window.open('nanjie.html', '_blank')">
-                    <div class="book-inner">
-                        <div class="book-front msyh-font">
-                            <div data-lang1="南街追雨落" data-lang2="南街追雨落" data-lang3="Spirits, Lovers, and Alien">南街追雨落</div>
-                        </div>
+<body data-theme="light">
+    <header class="reader-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <span class="logo">PARASOL SUN</span>
+            </div>
+            <div class="right-controls">
+                <!-- 多语言静态控件：均配备 data-lang 属性 -->
+                <!-- 语言下拉 —— 三语言完全同步 main.html 风格 -->
+                <div class="dropdown" id="langDropdown">
+                    <button class="dropdown-btn" id="langDropdownBtn">
+                         <span data-lang1="语言" data-lang2="語言" data-lang3="Language">语言</span>
+                    </button>
+                    <div class="dropdown-menu" id="langMenu">
+                        <button class="dropdown-item" data-lang-code="1"><span data-lang1="简体中文" data-lang2="簡體中文" data-lang3="Simplified Chinese">简体中文</span></button>
+                        <button class="dropdown-item" data-lang-code="2"><span data-lang1="繁體中文" data-lang2="繁體中文" data-lang3="Traditional Chinese">繁體中文</span></button>
+                        <button class="dropdown-item" data-lang-code="3"><span data-lang1="English" data-lang2="English" data-lang3="English">English</span></button>
                     </div>
                 </div>
-                
-                <div class="book" onclick="window.open('love.html', '_blank')">
-                    <div class="book-inner">
-                        <div class="book-front msyh-font">
-                            <div data-lang1="疫情时期的爱情" data-lang2="疫情時期的愛情" data-lang3="Love in the Time of Pandemic">疫情时期的爱情</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="book" onclick="window.open('bird.html', '_blank')">
-                    <div class="book-inner">
-                        <div class="book-front msyh-font">
-                            <div data-lang1="飞鸟与园丁" data-lang2="飛鳥與園丁" data-lang3="The Bird and the Gardener">飞鸟与园丁</div>
-                        </div>
-                    </div>
+
+            </div>
+        </div>
+    </header>
+
+<div class="page-content">
+
+
+<div class="hero-section first-page" style="position: relative; overflow: hidden;">
+    <div class="bg-image animate-item delay-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+        <img src="img1.png" alt="背景" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+    <!-- 半透明遮罩层，保证文字可读 -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;"></div>
+    <div class="hero-grid" style="position: relative; z-index: 1;">
+        <div class="hero-text">
+            <h1 class="animate-item delay-200" style="color: #ffffff;" data-lang1="你好，<br>我是孙楚航。" data-lang2="你好，<br>我是孫楚航。" data-lang3="Hello,<br>I'm Parasol Sun.">你好，<br>我是孙楚航。</h1>
+            <p class="lead animate-item delay-300"style="color: #ffffff;" data-lang1="一个业余写手。" data-lang2="一個業餘寫手。" data-lang3="An amateur writer.">一个业余写手。</p>
+        </div>
+        <div class="hero-image" style="position: relative; overflow: visible;">
+            <div id="earth-container" style="width: 600px; height: 650px; margin: 0 auto; overflow: visible;"></div>
+        </div>
+    </div>
+</div>
+
+<section class="hero-section second-page" style="position: relative; overflow: hidden;">
+    <div class="bg-image animate-item delay-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+        <img src="img2.png" alt="背景" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
+    <div class="hero-grid">
+        <div class="hero-text" style="text-align: center; grid-column: span 2;">
+            <h1 class="animate-item delay-200" style="color: #ffffff;"  data-lang1="作为一名普通的学生，" data-lang2="作為一名普通的學生，" data-lang3="As an ordinary student,">作为一名普通的学生，<br>我的成绩并不出色。</h1>
+            <p class="lead animate-item delay-300" style="color: #ffffff;" data-lang1="但这并没有影响我的追求。" data-lang2="但這並沒有影響我的追求。" data-lang3="But this has not affected my pursuits.">但这并没有影响我的追求。</p>
+        </div>
+    </div>
+</section>
+
+<section class="hero-section third-page">
+    <div class="hero-grid" style="grid-template-columns: 1fr; text-align: center; max-width: 900px;">
+    <div class="hero-image">
+            <div class="film-strip animate-item animate-left delay-100">
+                <div class="film-images">
+                    <img src="https://picsum.photos/400/300?random=1" alt="旅行" class="film-img">
+                    <img src="https://picsum.photos/400/300?random=2" alt="设计" class="film-img">
+                    <img src="https://picsum.photos/400/300?random=3" alt="美术" class="film-img">
+                    <img src="https://picsum.photos/400/300?random=4" alt="编曲" class="film-img">
+                    <img src="https://picsum.photos/400/300?random=5" alt="摄影" class="film-img">
+                    <!-- 复制一组以实现无缝循环 -->
+                    <img src="https://picsum.photos/400/300?random=1" alt="旅行" class="film-img">
+                    <img src="https://picsum.photos/400/300?random=2" alt="设计" class="film-img">
+                    <img src="https://picsum.photos/400/300?random=3" alt="美术" class="film-img">
+                    <img src="https://picsum.photos/400/300?random=4" alt="编曲" class="film-img">
+                    <img src="https://picsum.photos/400/300?random=5" alt="摄影" class="film-img">
                 </div>
             </div>
         </div>
+        <div class="hero-text">
+            <h1 class="animate-item delay-200"  data-lang1="我一直以来的愿望是，<br>徜徉在自由之海，探寻我所追求的事物，" data-lang2="我一直以來的願望是，<br>徜徉在自由之海，探尋我所追求的事物，" data-lang3="My long-cherished wish has always been<br> to wander in the sea of freedom, exploring what I pursue,">我一直以来的愿望是，<br>徜徉在自由之海，探寻我所追求的事物，</h1>
+            <p class="lead animate-item delay-300" data-lang1="旅行、设计、美术、编曲、摄影......" data-lang2="旅行、設計、美術、編曲、攝影......" data-lang3="Travel, design, art, composing, photography...">旅行、设计、美术、编曲、摄影......</p>
+        </div>
     </div>
+</section>
+<section class="hero-section fourth-page">
+    <div class="hero-grid" style="grid-template-columns: 1fr; text-align: center; max-width: 900px;">
+        <div class="hero-text">
+            <h1 class="animate-item delay-200" data-lang1="如果我做到了呢。" data-lang2="如果我做到了呢。" data-lang3="What if I make it?">如果我做到了呢。</h1>
+        </div>
+    </div>
+</section>
 
-    <!-- 页脚 -->
-    <footer>
-        <table class="contact-table">
-            <tr>
-                <td class="msyh-font" data-lang1="联系我" data-lang2="聯繫我" data-lang3="Contact Me">联系我</td>
-            </tr>
-            <tr>
-                <td><a href="https://space.bilibili.com/390305447" target="_blank" class="msyh-font">Bilibili</a></td>
-            </tr>
-            <tr>
-                <td><a href="https://www.lofter.com/theme/imsunchuhang" target="_blank" class="msyh-font">Lofter</a></td>
-            </tr>
-            <tr>
-                <td><a href="https://www.douyin.com/user/MS4wLjABAAAA8tBsTZnuUDcBZ009KmzyEyFrbv5S9DlsAWxJPNN6FQc?from_tab_name=main" target="_blank" class="msyh-font" data-lang1="抖音" data-lang2="抖音(中文版)" data-lang3="Tik Tok(CN)">抖音</a></td>
-            <tr>
-                <td><a href="https://x.com/shenqideshijuan/" target="_blank" class="msyh-font">X(twitter)</a></td>
-            </tr>
-            <tr>
-                <td><a href="https://www.instagram.com/shenqideshijuan/" target="_blank" class="msyh-font">Instagram</a></td>
-            </tr>
-        </table>
- <p>   </p>
- <p>   </p>
- <p>   </p>
-        <p class="section-subtitle msyh-font" data-lang1="“我对你的爱，自遇见你开始，直至宇宙毁灭。”" data-lang2="我對妳的愛，自遇見妳開始，直至宇宙毀滅。”" data-lang3="My love for you, from the moment I met you until the destruction of the universe.">“我对你的爱，自遇见你开始，直至宇宙毁灭。”</p>
-    </footer>
+<section class="hero-section" id="bookshelf-section">
+    <div class="bg-image animate-item delay-100" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+         <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3" alt="书架背景" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;; z-index: 1;"></div>
+    <div class="container" style="max-width: 1200px; margin: 0 auto; text-align: center;">
+        <h2 class="animate-item delay-200" data-lang1="书架" data-lang2="書架" data-lang3="Bookshelf" style="font-size: 2.8rem; margin-bottom: 20px; color: var(--text-color);">书架</h2>
+        <p class="animate-item delay-300" data-lang1="点击书籍，开启文字世界" data-lang2="點擊書籍，開啓文字世界" data-lang3="Click to explore stories" style="font-size: 1rem; margin-bottom: 55px; color: var(--text-secondary);">点击书籍，开启文字世界</p>
+        <div class="books-container animate-item delay-400">
+<div class="book custom-cover" onclick="window.open('nanjie.html', '_blank')">
+    <div class="book-inner">
+        <div class="book-front" style="background-image: url('spiritslovesandalien.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-color: transparent; padding: 0; display: flex; align-items: center; justify-content: center;">
+            <div data-lang1="南街追雨落" data-lang2="南街追雨落" data-lang3="Spirits, Lovers, and Alien" class="book-title-overlay">南街追雨落</div>
+        </div>
+    </div>
+</div>
+<div class="book" onclick="window.open('love.html', '_blank')">
+    <div class="book-inner">
+        <div class="book-front" style="display: flex; align-items: center; justify-content: center; padding: 0;">
+            <div data-lang1="疫情时期的爱情" data-lang2="疫情時期的愛情" data-lang3="Love in the Time of Pandemic">疫情时期的爱情</div>
+        </div>
+    </div>
+</div>
+<div class="book" onclick="window.open('bird.html', '_blank')">
+    <div class="book-inner">
+        <div class="book-front" style="display: flex; align-items: center; justify-content: center; padding: 0;">
+            <div data-lang1="飞鸟与园丁" data-lang2="飛鳥與園丁" data-lang3="The Bird and the Gardener">飞鸟与园丁</div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</section>
+</div> 
+<footer class="custom-footer">
+    <div class="footer-social">
+        <a href="https://space.bilibili.com/390305447" target="_blank" aria-label="Bilibili"><i class="fab fa-bilibili"></i></a>
+        <a href="https://imsunchuhang.lofter.com" target="_blank" aria-label="Lofter"><i class="fas fa-pen-fancy"></i></a>
+        <a href="https://www.douyin.com/user/MS4wLjABAAAA8tBsTZnuUDcBZ009KmzyEyFrbv5S9DlsAWxJPNN6FQc" target="_blank" aria-label="Douyin"><i class="fab fa-tiktok"></i></a>
+        <a href="https://x.com/shenqideshijuan/" target="_blank" aria-label="X (Twitter)"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/shenqideshijuan/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+    <p class="footer-quote" 
+       data-lang1="“我对你的爱，自遇见你开始，直至宇宙毁灭。”<br> shenqideshijuan.github.io | Parasol Sun, 2026"
+       data-lang2="“我對妳的愛，自遇見妳開始，直至宇宙毀滅。”<br> shenqideshijuan.github.io | Parasol Sun, 2026"
+       data-lang3="My love for you, from the moment I met you until the destruction of the universe. <br> shenqideshijuan.github.io | Parasol Sun, 2026">
+        “我对你的爱，自遇见你开始，直至宇宙毁灭。<br> shenqideshijuan.github.io | Parasol Sun, 2026”
+    </p>
+</footer>
+
+
+
 
     <script>
-        // 获取URL参数
-        function getQueryParam(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
+        // ---------- 多语言核心 (1:简中 2:繁中 3:English) ----------
+let currentLang = '1';
+
+// 语言资源
+const i18nDynamic = {
+    '1': { 'wordCountLabel': '字数统计' },
+    '2': { 'wordCountLabel': '字數統計' },
+    '3': { 'wordCountLabel': 'Word Count' }
+};
+
+function t(key) {
+    return i18nDynamic[currentLang][key] || i18nDynamic['1'][key];
+}
+
+// 更新界面静态文本（仅语言下拉按钮的文字）
+function updateStaticTexts() {
+    document.querySelectorAll('[data-lang1][data-lang2][data-lang3]').forEach(el => {
+        const text = el.getAttribute(`data-lang${currentLang}`);
+        if (text && el.innerHTML !== text) {
+            el.innerHTML = text;
         }
-        
-        // 设置语言
-        function setLanguage(langCode) {
-            // 保存语言选择
-            localStorage.setItem('preferredLanguage', langCode);
-            
-            // 更新所有带有data-lang属性的元素
-            document.querySelectorAll('[data-lang1], [data-lang2], [data-lang3]').forEach(element => {
-                const text = element.getAttribute(`data-lang${langCode}`);
-                if (text) {
-                    element.textContent = text;
+    });
+}
+
+// 设置语言
+function setLanguage(langCode) {
+    if (!['1','2','3'].includes(langCode)) return;
+    currentLang = langCode;
+    localStorage.setItem('reader_lang', currentLang);
+    updateStaticTexts();
+}
+
+// 初始化语言
+function initLanguage() {
+    const savedLang = localStorage.getItem('reader_lang');
+    if (savedLang && ['1','2','3'].includes(savedLang)) {
+        currentLang = savedLang;
+    } else {
+        currentLang = '1';
+    }
+    setLanguage(currentLang);
+}
+
+// 下拉菜单交互
+function setupDropdown(dropdownElem, btn, menu) {
+    if (!dropdownElem || !btn || !menu) return;
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isShow = menu.classList.contains('show');
+        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+        document.querySelectorAll('.dropdown-btn').forEach(b => b.classList.remove('active'));
+        if (!isShow) {
+            menu.classList.add('show');
+            btn.classList.add('active');
+        }
+    });
+    dropdownElem.addEventListener('mouseleave', () => {
+        menu.classList.remove('show');
+        btn.classList.remove('active');
+    });
+    menu.addEventListener('click', (e) => e.stopPropagation());
+}
+
+// 语言下拉选项绑定
+function bindLanguageItems() {
+    document.querySelectorAll('#langMenu .dropdown-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const langVal = item.getAttribute('data-lang-code');
+            if (langVal) setLanguage(langVal);
+            document.getElementById('langMenu').classList.remove('show');
+            document.getElementById('langDropdownBtn').classList.remove('active');
+        });
+    });
+}
+
+
+function initHeroAnimations() {
+    const heroSections = document.querySelectorAll('.hero-section');
+    const timers = new Map();
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const section = entry.target;
+            if (entry.isIntersecting) {
+                // 进入视口且达到 threshold 阈值（50%）：清除残留定时器，延迟 0.3 秒后添加 visible 类
+                if (timers.has(section)) {
+                    clearTimeout(timers.get(section));
+                    timers.delete(section);
                 }
-            });
-            
-            // 更新当前语言显示
-            const langNames = {1: "中文(简)", 2: "中文(繁)", 3: "English"};
-            document.getElementById('current-lang').textContent = langNames[langCode] || "语言";
-            
-            // 更新页面语言属性
-            document.documentElement.lang = langCode === '3' ? 'en' : (langCode === '2' ? 'zh-TW' : 'zh-CN');
-        }
-        
-        // 初始化语言
-        function initLanguage() {
-            // 首先检查URL参数
-            const urlLang = getQueryParam('lang');
-            
-            if (urlLang) {
-                setLanguage(urlLang);
+                const timer = setTimeout(() => {
+                    section.classList.add('visible');
+                    timers.delete(section);
+                }, 300);
+                timers.set(section, timer);
             } else {
-                // 如果没有URL参数，检查本地存储
-                const savedLang = localStorage.getItem('preferredLanguage');
-                if (savedLang) {
-                    setLanguage(savedLang);
-                } else {
-                    // 默认使用简体中文
-                    setLanguage('1');
+                // 离开视口：清除定时器，并移除 visible 类（下次进入重新触发动画）
+                if (timers.has(section)) {
+                    clearTimeout(timers.get(section));
+                    timers.delete(section);
                 }
-            }
-        }
-        
-        // 语言切换功能
-        function toggleLanguageOptions() {
-            const options = document.getElementById('languageOptions');
-            options.style.display = options.style.display === 'block' ? 'none' : 'block';
-        }
-        
-        // 关闭语言选项当点击外部
-        document.addEventListener('click', function(event) {
-            const langSwitcher = document.querySelector('.language-switcher');
-            if (!langSwitcher.contains(event.target)) {
-                document.getElementById('languageOptions').style.display = 'none';
+                section.classList.remove('visible');
             }
         });
-        
-        // 滚动动画效果
-        function checkVisibility() {
-            const screens = document.querySelectorAll('.screen');
-            const scrollHint = document.querySelector('.scroll-hint');
-            
-            // 隐藏滚动提示当用户开始滚动
-            if (window.scrollY > 100) {
-                scrollHint.style.opacity = '0';
-            } else {
-                scrollHint.style.opacity = '1';
-            }
-            
-            screens.forEach(screen => {
-                const rect = screen.getBoundingClientRect();
-                const screenTop = rect.top;
-                const screenBottom = rect.bottom;
-                const screenHeight = window.innerHeight;
-                
-                // 如果屏幕在视口中
-                if (screenTop < screenHeight * 0.8 && screenBottom > screenHeight * 0.2) {
-                    // 显示当前屏幕内容
-                    const elements = screen.querySelectorAll('.main-title, .main-text, .screen-image');
-                    elements.forEach(element => {
-                        setTimeout(() => {
-                            element.classList.add('visible');
-                        }, 100);
-                    });
-                    
-                    // 淡化其他屏幕
-                    screens.forEach(otherScreen => {
-                        if (otherScreen !== screen) {
-                            otherScreen.style.opacity = '0.2';
-                        } else {
-                            otherScreen.style.opacity = '1';
-                        }
-                    });
-                } else {
-                    // 隐藏非活动屏幕内容
-                    const elements = screen.querySelectorAll('.main-title, .main-text, .screen-image');
-                    elements.forEach(element => {
-                        element.classList.remove('visible');
-                    });
+    }, { threshold: 0.5 });  // 改为 0.5，元素露出 50% 时才触发
+
+    heroSections.forEach(section => {
+        observer.observe(section);
+        // 初始检查：如果页面加载时该 section 已经满足条件，手动触发
+        if (section.getBoundingClientRect().top < window.innerHeight * 0.5) {
+            setTimeout(() => {
+                if (section.getBoundingClientRect().top < window.innerHeight * 0.5) {
+                    const timer = setTimeout(() => {
+                        section.classList.add('visible');
+                    }, 300);
+                    timers.set(section, timer);
                 }
-            });
+            }, 100);
         }
-        
-        // 初始检查可见元素
-        window.addEventListener('load', function() {
-            // 初始化语言
-            initLanguage();
-            
-            checkVisibility();
-            // 初始显示第一个屏幕
-            document.querySelectorAll('#screen1 .main-title, #screen1 .main-text').forEach(el => {
-                el.classList.add('visible');
-            });
-        });
-        
-        // 滚动时检查可见元素
-        window.addEventListener('scroll', checkVisibility);
-        
-        // 为语言选项添加点击事件
-        document.querySelectorAll('.language-options a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const lang = this.getAttribute('data-lang');
-                
-                // 更新URL参数而不刷新页面
-                const newUrl = new URL(window.location);
-                newUrl.searchParams.set('lang', lang);
-                window.history.replaceState({}, '', newUrl);
-                
-                // 设置新语言
-                setLanguage(lang);
-                
-                // 关闭语言选项
-                document.getElementById('languageOptions').style.display = 'none';
-            });
-        });
+    });
+}
+
+
+// 全局点击关闭下拉菜单
+window.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    document.querySelectorAll('.dropdown-btn').forEach(b => b.classList.remove('active'));
+});
+
+// 初始化
+function init() {
+    initLanguage();
+    const langDropdown = document.getElementById('langDropdown');
+    const langBtn = document.getElementById('langDropdownBtn');
+    const langMenu = document.getElementById('langMenu');
+    if (langDropdown && langBtn && langMenu) {
+        setupDropdown(langDropdown, langBtn, langMenu);
+    }
+    bindLanguageItems();
+    initHeroAnimations();
+}
+
+init();
     </script>
+<script type="module">
+    import * as THREE from 'three';
+
+    // --- 1. 找到容器并设置场景 ---
+    const container = document.getElementById('earth-container');
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    camera.position.set(0, 0, 7.0); // 相机距离
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(width, height);
+    renderer.setClearColor(0x000000, 0); // 透明背景
+    container.appendChild(renderer.domElement);
+
+    // --- 2. 创建一个浅灰白色的半透明球体 ---
+    const sphereGeometry = new THREE.SphereGeometry(2.5, 64, 64);
+    const sphereMaterial = new THREE.MeshStandardMaterial({
+        color: 0xdddddd,        // 浅灰白色
+        emissive: 0x222222,
+        emissiveIntensity: 0.2,
+        roughness: 0.4,
+        metalness: 0.1,
+        transparent: true,
+        opacity: 0.85           // 半透明，隐约透出线条
+    });
+    const earthSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    scene.add(earthSphere);
+
+    // --- 3. 生成经纬线网格 (LineSegments) ---
+    // 经线：每隔 15 度一条，纬线：每隔 15 度一条
+    const radius = 2.51;        // 比球体略大，避免深度冲突
+    const latStep = 15;         // 纬度间隔（度）
+    const lonStep = 15;         // 经度间隔（度）
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0xaaaaaa }); // 浅灰色线条
+
+    const points = [];
+
+    // 生成纬线（平行圆）：每个纬线是一个圆环
+    for (let lat = -75; lat <= 75; lat += latStep) {
+        const phi = (90 - lat) * Math.PI / 180;
+        const thetaStep = 5 * Math.PI / 180; // 圆的细分
+        const ringPoints = [];
+        for (let theta = 0; theta <= 2 * Math.PI + 0.1; theta += thetaStep) {
+            const x = radius * Math.sin(phi) * Math.cos(theta);
+            const y = radius * Math.cos(phi);
+            const z = radius * Math.sin(phi) * Math.sin(theta);
+            ringPoints.push(new THREE.Vector3(x, y, z));
+        }
+        // 将圆环的点连成线段
+        for (let i = 0; i < ringPoints.length - 1; i++) {
+            points.push([ringPoints[i], ringPoints[i + 1]]);
+        }
+    }
+
+    // 生成经线（从北极到南极的半圆）
+    for (let lon = 0; lon < 360; lon += lonStep) {
+        const theta = lon * Math.PI / 180;
+        const meridianPoints = [];
+        for (let lat = -85; lat <= 85; lat += 5) { // 细分
+            const phi = (90 - lat) * Math.PI / 180;
+            const x = radius * Math.sin(phi) * Math.cos(theta);
+            const y = radius * Math.cos(phi);
+            const z = radius * Math.sin(phi) * Math.sin(theta);
+            meridianPoints.push(new THREE.Vector3(x, y, z));
+        }
+        for (let i = 0; i < meridianPoints.length - 1; i++) {
+            points.push([meridianPoints[i], meridianPoints[i + 1]]);
+        }
+    }
+
+    // 创建 LineSegments 几何体
+    const lineGeometry = new THREE.BufferGeometry();
+    const vertices = [];
+    points.forEach(segment => {
+        vertices.push(segment[0].x, segment[0].y, segment[0].z);
+        vertices.push(segment[1].x, segment[1].y, segment[1].z);
+    });
+    lineGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
+    const wireframe = new THREE.LineSegments(lineGeometry, lineMaterial);
+    scene.add(wireframe);
+
+    // --- 4. 灯光（让球体有立体感）---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    dirLight.position.set(5, 3, 5);
+    scene.add(dirLight);
+    const backLight = new THREE.DirectionalLight(0x88aaff, 0.5);
+    backLight.position.set(-5, 0, -5);
+    scene.add(backLight);
+
+    // --- 5. 动画：旋转整个球体和线条（一起旋转）---
+    function animate() {
+        requestAnimationFrame(animate);
+        earthSphere.rotation.y += 0.003;
+        wireframe.rotation.y += 0.003;
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // --- 6. 窗口尺寸适配 ---
+    window.addEventListener('resize', onWindowResize, false);
+    function onWindowResize() {
+        const newWidth = container.clientWidth;
+        const newHeight = container.clientHeight;
+        camera.aspect = newWidth / newHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(newWidth, newHeight);
+    }
+</script>
 </body>
 </html>
